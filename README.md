@@ -5,8 +5,7 @@
 Este projeto faz parte de um trabalho proposto pelo professor Eduardo Simões na disciplina "Intrudução a Sistemas Computacionais" e consiste na elaboração de um jogo escrito em linguagem  Assembly que respeita as configurações do processador do ICMC. O jogo foi pensado con a intenção de testar as capacidades do jogador com relação a agilidade e reflex0. O objetivo do jogo é evitar que maçãs de uma árvore caiam no solo. Para isso, o jogador deve coletar as maçãs com um cesto enquanto elas caem. Além disso, há um pombo que solta pedaços de cocô em intervalos de tempo, dos quais o jogador deve desviar. 
 
 ## Vídeo no Youtube:
-
-
+https://youtu.be/gfJSUgLPVWA
 
 ## Funcionalidades
 
