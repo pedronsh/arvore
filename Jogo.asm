@@ -4,8 +4,6 @@ posAntCesto: var #1		; Contem a posicao anterior do cesto
 scoretable: var #1		; Contem o score atual
 posMaca: var #1			; Contem a posicao atual da maçã 
 posAntMaca: var #1		; Contem a posicao anterior da maçã
-posMaca1: var #1		; Contem a posição da maçã 2
-posAntMaca1: var #1		; Contem a posição anterior da maçã 2
 posPombo: var #1		; Contem a posição do Pombo
 posAntPombo: var #1		; Contem a posição anterior do Pombo
 posMerdaPombo: var #1	; Contem a posição da merda do Pombo
@@ -131,11 +129,7 @@ main:
     Loadn R0, #735
 	store posMaca, R0		; Zera Posicao Atual da maçã
 	store posAntMaca, R0	; Zera Posicao Anterior da maçã
-
-    Loadn r0, #490
-    store posMaca1, r0		;Zera posição da maçã 2
-    store posAntMaca1, r0   ;Zera a posição anterior da maçã 2
-
+    
     Loadn r0, #10
     store posPombo, r0		;Zera a posição do pombo
     store posAntPombo, r0	;Zera a posição anterior do pombo
