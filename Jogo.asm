@@ -129,7 +129,7 @@ main:
     Loadn R0, #735
 	store posMaca, R0		; Zera Posicao Atual da maçã
 	store posAntMaca, R0	; Zera Posicao Anterior da maçã
-    
+
     Loadn r0, #10
     store posPombo, r0		;Zera a posição do pombo
     store posAntPombo, r0	;Zera a posição anterior do pombo
@@ -242,11 +242,9 @@ colisaomacacesto: ;Se a maçã estiver na mesma posição do cestod
     push r1
     push r2
     load r0, posMaca; A pontuação aumenta e a maçã vai para a proxima posição
-    load r2, posMaca1
     load r1, posCesto 
     cmp r0, r1
     ceq aumentascore
-    cmp r2, r1 
     pop r2
     pop r1
     pop r0 
