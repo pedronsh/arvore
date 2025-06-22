@@ -149,45 +149,34 @@ main:
     Loop:
     
         
-        loadn R1, #25
+        loadn R1, #17
 	    mod R1, R0, R1
 	    cmp R1, R2		; if (mod(c/30)==0
 	    ceq MoveMaca	; Chama Rotina de movimentacao da Maçã
         call Macafora
 	
-        ;loadn R1, #25
-	    ;mod R1, R0, R1
-	    ;cmp R1, R2		; if (mod(c/30)==0
-	    ;ceq MoveMaca1	; Chama Rotina de movimentação da Maçã 2
-        ;call Macafora1
-        
         loadn R1, #100
 	    mod R1, R0, R1
 	    cmp R1, R2		; if (mod(c/100)==0
 	    ceq Movepombo	; Chama a rotina de movimentação do Pombo
         call Pombofora
 		
-		loadn R1, #30
+		loadn R1, #13
         mod R1, R0, R1
         cmp R1, R2    		;if(mod(c/30))==0
         ceq MoveMerdaPombo 	; Chama a rotina de movimentação da merda do pombo
         call MerdaPombofora
 
-        loadn R1, #10
+        loadn R1, #5
 		mod R1, R0, R1
 		cmp R1, R2		; if (mod(c/10)==0
 		ceq MoveCesto	; Chama a rotina de movimentação do cesto
-
-
-		;Load r5, scoretable
-        ;loadn r6, #0	
-        ;call PrintR5R6
 
         call Delay
 		inc R0 	;c++
 		jmp Loop
 
-highscoreprint:
+highscoreprint: ;Função para printar na tela a maior pontuação
 	push r0 
 	push r1
 	push r2
@@ -195,11 +184,11 @@ highscoreprint:
 	push r6
 	load r1, highscore
 	load r2, scoretable
-	cmp r2,r1
-	cgr aumentouhighscore
+	cmp r2,r1 ; Compara a maior pontuação antiga com a pontuação no jogo atual
+	cgr aumentouhighscore ;Se for maior salva a nova pontuação nessa função 
 	load r5, highscore
 	loadn r6, #983
-	call PrintR5R6 
+	call PrintR5R6 ;Imprime na tela a maior pontuação
 	pop r6
 	pop r5
 	pop r2
@@ -217,7 +206,7 @@ Pombofora: ; Após a merda do pombo chegar ao solo, ele reinicia para cair uma n
     
     load r0, posPombo
     loadn r1, #1120
-    cmp r0, r1 
+    cmp r0, r1 ; Se a posição do pombo for muito baixa, ele retorna para cima
     pop r2
     pop r1
     pop r0
@@ -234,8 +223,8 @@ PomboVolta: ;Reinicia a merda do pombo
     pop r1
     pop r0
     rts
-colisaomacachao:
-    push r0
+colisaomacachao: ; Quando a mação encosta no chão
+    push r0   ;Perde o jogo, e vai pra tela de restart
     push r1
     push r2
     load r1, posMaca
@@ -247,65 +236,39 @@ colisaomacachao:
     pop r0
     rts
 
-colisaomaca1chao:
-    push r0
-    push r1
-    push r2
-    load r1, posMaca1
-    load r2, #1160
-    cmp r1, r2
-    cgr deuruim2 
-    pop r2
-    pop r1
-    pop r0
-    rts
-
 deuruim2:
     pop r2
     pop r1
     pop r0
-    jmp restart
+    jmp restart ;Vai para o restart do jogo
 	rts
-aumentascore1: 
-    push r0
-    push r1
-    load r0, score
-    inc r0
-    add r0, r1, r0
-    store, score, r0
-	call Macavolta1
-	call MoveCesto_Desenha
-	pop r1
-    pop r0
-    rts
 
-colisaomacacesto:
+colisaomacacesto: ;Se a maçã estiver na mesma posição do cestod
     push r0 
     push r1
     push r2
-    load r0, posMaca
+    load r0, posMaca; A pontuação aumenta e a maçã vai para a proxima posição
     load r2, posMaca1
     load r1, posCesto 
     cmp r0, r1
     ceq aumentascore
     cmp r2, r1 
-    ceq aumentascore1
     pop r2
     pop r1
     pop r0 
     rts
 
-aumentascore: 
+aumentascore: ;Função para aumentar a posição
     push r0
     push r1
 	push r5
 	push r6
 
-    load r0, scoretable
-    inc r0
+    load r0, scoretable ; Carrega a pontuação atual
+    inc r0 ;Incrementa e depois salva
     store scoretable, r0
 	call Macavolta
-	call MoveCesto_Desenha 
+	call MoveCesto_Desenha ;Reinicia a posição da maçã
 
 	call printscore
 
@@ -316,8 +279,8 @@ aumentascore:
     rts
 
 colisao:
-    push r0
-    push r1
+    push r0 ; Se a Merda da posição for igual a posição do cesto
+    push r1 ;Chama a função deu ruim que chama a restart, ou seja game over
     push r2
     load r0, posMerdaPombo
     load r1, posCesto
@@ -331,15 +294,15 @@ deuruim:
     pop r2
     pop r1
     pop r0
-    jmp restart 
+    jmp restart ;Chama a função restart
 
-clickstart:
+clickstart: ; Fica esperando a pessoa apertar espaço para começar
 	push r1
-	push r2
+	push r2 
 	clickstart_loop:
 	inchar r1
 	loadn r2, #' '
-	cmp r1, r2
+	cmp r1, r2 ;Compara a tecla digitada com espaço, se for igual, ele começa o jogo 
 	jeq finish
 	jmp clickstart_loop
 	rts
@@ -749,124 +712,6 @@ Macafora: ;Função para calcular caso a maçã esteja indo para fora do cenári
     pop r0
     rts
 
-
-MoveMaca1:
-	push r0
-	push r1
-	
-	call MoveMaca_RecalculaPos1		; Tudo igual ao da Maçã, porém duplicado para ser o de outra maçã
-	load r0, posMaca1
-	load r1, posAntMaca1
-	call MoveMaca_Apaga1
-	call MoveMaca_Desenha1
-    call colisaomacacesto
-    call colisaomaca1chao
-	pop r1
-	pop r0
-	rts
-  MoveMaca_Apaga1:	
-	push R0
-	push R1
-	push R2
-	push R3
-	push R4
-	push R5
-
-	load R0, posAntMaca1	; R0 = posAnt
-	
-	; --> R2 = Tela1Linha0 + posAnt + posAnt/40  ; tem que somar posAnt/40 no ponteiro pois as linas da string terminam com /0 !!
-
-	loadn R1, #tela0Linha0	; Endereco onde comeca a primeira linha do cenario!!
-	add R2, R1, r0	; R2 = Tela1Linha0 + posAnt
-	loadn R4, #40
-	div R3, R0, R4	; R3 = posAnt/40
-	add R2, R2, R3	; R2 = Tela1Linha0 + posAnt + posAnt/40
-	
-	loadi R5, R2	; R5 = Char (Tela(posAnt))
-	
-	outchar R5, R0	; Apaga o Obj na tela com o Char correspondente na memoria do cenario
-	
-	pop R5
-	pop R4
-	pop R3
-	pop R2
-	pop R1
-	pop R0
-	rts
-MoveMaca_RecalculaPos1:		
-	push R0
-	push R1
-	push R2
-	push R3
-
-	load R0, posMaca1
-	
-	loadn R1, #40
-	add R0,R1,R0	
-	store posMaca1, R0
-	pop R3
-	pop R2
-	pop R1
-	pop R0
-	rts
-
-
-
-MoveMaca_Desenha1:	
-	push R0
-	push R1
-	
-	Loadn R1, #'A'	
-	load R0, posMaca1
-	outchar R1, R0
-	store posAntMaca1, R0	
-	
-	pop R1
-	pop R0
-	rts
-
-
-Macafora1:
-    push r0
-    push r1
-    push r2 
-    
-    load r0, posMaca1
-    loadn r1, #1200
-    cmp r0, r1 
-    pop r2
-    pop r1
-    pop r0
-    jgr Macavolta1
-    rts
-    
-    Macavolta1:
-	push R0
-	push R1
-	push R2
-	push R3
-	
-    loadn R2, #Rand1 	
-	load R1, IncRand1	
-	add r2, r2, r1		
-						
-	loadi R3, R2 		
-								
-	inc r1				
-	loadn r2, #30
-	cmp r1, r2			; Compara com o Final da Tabela e re-estarta em 0
-	jne MoveMacaPos_Skip1
-		loadn r1, #0		; re-estarta a Tabela Rand em 0
-  MoveMacaPos_Skip1:
-	store IncRand1, r1	; Salva incremento ++
-    store posMaca1, r3
-    store posAntMaca1, r3
-    pop r3
-    pop r2
-    pop r1
-    pop r0
-    rts
-
 perdeu: 
 	rts
 Delay:
@@ -888,7 +733,7 @@ Delay:
 	
 	RTS							;return
 
-printscore1:
+printscore1: ;Função de printar na tela a palavra score 
     push r0
     push r1
 
@@ -918,7 +763,7 @@ printscore1:
 
     inc r1
     inc r1
-    loadn r0, #'0'
+    loadn r0, #'0' ;Imprime na tela o score logo após a escrita score:
     outchar r0, r1  
 
     inc r1
@@ -1363,7 +1208,7 @@ tela6Linha20 : string "                  BBB                   "
 tela6Linha21 : string "                  BBB                   "
 tela6Linha22 : string "                  BBB                   "
 tela6Linha23 : string "                                        "
-tela6Linha24 : string "            high score:                 "
+tela6Linha24 : string "            highscore:                  "
 tela6Linha25 : string "                                        "
 tela6Linha26 : string "      clique [space] para recomecar     "
 tela6Linha27 : string "                                        "
