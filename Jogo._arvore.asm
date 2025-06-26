@@ -8,7 +8,7 @@ posPombo: var #1		; Contem a posição do Pombo
 posAntPombo: var #1		; Contem a posição anterior do Pombo
 posMerdaPombo: var #1	; Contem a posição da merda do Pombo
 posAntMerdaPombo: var #1; Contem a posição anterior da merda do Pombo
-IncRand1: var #1		; Lista de valores aleatórios para  posição da maçã
+IncRand: var #1		; Lista de valores aleatórios para  posição da maçã
 score: var #1
 highscore: var #1
 Rand: var #30
@@ -44,40 +44,6 @@ Rand: var #30
 	static Rand + #28, #833
 	static Rand + #29, #512
 
-
-IncRand: var #1			;Lista de valores aleatórios para  posição da maçã 2
-Rand1 : var #30			
-	static Rand1 + #0, #730
-	static Rand1 + #1, #740
-	static Rand1 + #2, #745
-	static Rand1 + #3, #780
-	static Rand1 + #4, #900
-	static Rand1 + #5, #970
-	static Rand1 + #6, #412
-	static Rand1 + #7, #684
-	static Rand1 + #8, #374
-	static Rand1 + #9, #544
-	static Rand1 + #10, #630
-	static Rand1 + #11, #708
-	static Rand1 + #12, #900
-	static Rand1 + #13, #670
-	static Rand1 + #14, #886
-	static Rand1 + #15, #506
-	static Rand1 + #16, #724
-	static Rand1 + #17, #882
-	static Rand1 + #18, #490
-	static Rand1 + #19, #512
-	static Rand1 + #20, #667
-	static Rand1 + #20, #530
-	static Rand1 + #21, #834
-	static Rand1 + #22, #530
-	static Rand1 + #23, #667
-	static Rand1 + #24, #489
-	static Rand1 + #25, #686
-	static Rand1 + #26, #511
-	static Rand1 + #27, #915
-	static Rand1 + #28, #470
-	static Rand1 + #29, #387
 
 inicio:
 	loadn r1, #0
@@ -773,10 +739,6 @@ printscore:
 	push r3
 	push r4
 	push r5
-
-	loadn r0, #'s'
-	loadn r1, #0
-	outchar r0, r1
 
 	load r0, scoretable
 	loadn r1, #10
